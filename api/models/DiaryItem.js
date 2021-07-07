@@ -2,33 +2,27 @@ const Sequelize = require("sequelize");
 
 const sequelize = require("../../config/database");
 
-const tableName = "groups";
-
 const { User } = require("./User");
+const { Group } = require("./Group");
 
-const Group = sequelize.define(
-  "Group",
-  {
-    name: {
-      type: Sequelize.STRING,
-      allowNull: false,
-    },
-    code: {
-      type: Sequelize.STRING,
-      allowNull: false,
-    },
-  },
-  { tableName }
-);
+const tableName = "DiaryItems";
 
-const GroupDetail = sequelize.define(
-  "GroupDetail",
+const Chat = sequelize.define(
+  "DiaryItems",
   {
+    description: {
+      type: Sequelize.STRING,
+      allowNull: true,
+    },
+    imageUrl: {
+      type: Sequelize.STRING,
+      allowNull: true,
+    },
     userId: {
       type: Sequelize.INTEGER,
       allowNull: false,
       references: {
-        model: User, // 'Movies' would also work
+        model: User,
         key: "id",
       },
     },
@@ -36,16 +30,11 @@ const GroupDetail = sequelize.define(
       type: Sequelize.INTEGER,
       allowNull: false,
       references: {
-        model: Group, // 'Movies' would also work
+        model: Group,
         key: "id",
       },
-    },
-    active: {
-      type: Sequelize.BOOLEAN,
     },
   },
   { tableName }
 );
-
-Group.belongsToMany(User, { through: GroupDetail });
-module.exports = { Group };
+module.exports = { DiaryItems };

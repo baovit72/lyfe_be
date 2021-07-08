@@ -11,11 +11,11 @@ const Image = sequelize.define(
       type: Sequelize.STRING,
       allowNull: false,
     },
-    imageUrl: {
+    filename: {
       type: Sequelize.STRING,
       allowNull: false,
     },
   },
   { tableName }
 );
-module.exports = { Emoticon };
+module.exports = { Image };

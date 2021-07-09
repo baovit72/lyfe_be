@@ -17,6 +17,15 @@ const Group = sequelize.define(
       type: Sequelize.STRING,
       allowNull: false,
     },
+    ownerId: {
+      type: Sequelize.INTEGER,
+      allowNull: false,
+      unique: true,
+      references: {
+        model: User, // 'Movies' would also work
+        key: "id",
+      },
+    },
   },
   { tableName }
 );

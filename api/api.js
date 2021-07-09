@@ -57,6 +57,9 @@ api.post("/graphql", (req, res, next) => auth(req, res, next));
 
 const graphQLServer = new ApolloServer({
   schema,
+  context: ({ req }) => ({
+    userId: req.userId,
+  }),
 });
 
 graphQLServer.applyMiddleware({
@@ -94,3 +97,11 @@ server.listen(config.port, () => {
   }
   return DB;
 });
+
+//Seed DB
+const { exec } = require("child_process");
+const seed = exec("yarn seed", { env: process.env });
+
+// Forward stdout+stderr to this process
+seed.stdout.pipe(process.stdout);
+seed.stderr.pipe(process.stderr);

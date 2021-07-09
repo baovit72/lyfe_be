@@ -1,7 +1,6 @@
 const { Note } = require("./Note");
 const { User } = require("./User");
-const { Group } = require("./Group");
-const { GroupDetail } = require("./GroupDetail");
+const { Group, GroupDetail } = require("./Group");
 const { Emoticon } = require("./Emoticon");
 const { Emothought } = require("./Emothought");
 const { Chat } = require("./Chat");

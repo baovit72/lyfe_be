@@ -37,7 +37,7 @@ const GroupDetail = sequelize.define(
       type: Sequelize.INTEGER,
       allowNull: false,
       references: {
-        model: User, // 'Movies' would also work
+        model: User,
         key: "id",
       },
     },
@@ -45,7 +45,7 @@ const GroupDetail = sequelize.define(
       type: Sequelize.INTEGER,
       allowNull: false,
       references: {
-        model: Group, // 'Movies' would also work
+        model: Group,
         key: "id",
       },
     },
@@ -57,4 +57,4 @@ const GroupDetail = sequelize.define(
 );
 
 Group.belongsToMany(User, { through: GroupDetail });
-module.exports = { Group };
+module.exports = { Group, GroupDetail };

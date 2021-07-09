@@ -30,31 +30,4 @@ const Group = sequelize.define(
   { tableName }
 );
 
-const GroupDetail = sequelize.define(
-  "GroupDetail",
-  {
-    userId: {
-      type: Sequelize.INTEGER,
-      allowNull: false,
-      references: {
-        model: User,
-        key: "id",
-      },
-    },
-    groupId: {
-      type: Sequelize.INTEGER,
-      allowNull: false,
-      references: {
-        model: Group,
-        key: "id",
-      },
-    },
-    active: {
-      type: Sequelize.BOOLEAN,
-    },
-  },
-  { tableName }
-);
-
-Group.belongsToMany(User, { through: GroupDetail });
-module.exports = { Group, GroupDetail };
+module.exports = { Group };

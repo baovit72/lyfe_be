@@ -6,6 +6,7 @@ const { updateUser, deleteUser } = require("./mutations");
 const { noteQuery } = require("./queries");
 const { createNote, updateNote, deleteNote } = require("./mutations");
 const { createGroup, updateGroup } = require("./mutations");
+const { joinGroup, leaveGroup } = require("./mutations");
 
 const RootQuery = new GraphQLObjectType({
   name: "rootQuery",
@@ -30,6 +31,8 @@ const RootMutation = new GraphQLObjectType({
     deleteNote,
     createGroup,
     updateGroup,
+    joinGroup,
+    leaveGroup,
   }),
 });
 

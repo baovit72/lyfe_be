@@ -1,6 +1,8 @@
 /**
  * third party libraries
  */
+const JWTService = require("./services/auth.service");
+
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const express = require("express");
@@ -57,9 +59,44 @@ api.post("/graphql", (req, res, next) => auth(req, res, next));
 
 const graphQLServer = new ApolloServer({
   schema,
-  context: ({ req }) => ({
-    userId: req.userId,
-  }),
+  subscriptions: {
+    path: "/subscriptions",
+    onConnect: (connectionParams, websocket, context) => {
+      console.log("Client connected for subscriptions");
+    },
+    onDisconnect: () => {
+      console.log("Client disconnected from subscriptions");
+    },
+  },
+  context: ({ req, connection }) => {
+    let authorization;
+    if (connection) {
+      console.log(connection);
+      authorization = connection.context.authorization;
+    } else authorization = req.header("Authorization");
+    let tokenToVerify;
+    if (authorization) {
+      const parts = authorization.split(" ");
+      if (parts.length === 2) {
+        const scheme = parts[0];
+        const credentials = parts[1];
+
+        if (/^Bearer$/.test(scheme)) {
+          tokenToVerify = credentials;
+        } else {
+          throw new Error("Wrong token format");
+        }
+      } else {
+        throw new Error("Wrong token format");
+      }
+    } else {
+      throw new Error("No token found");
+    }
+    return JWTService().verify(tokenToVerify, (err, thisToken) => {
+      if (err) throw new Error("Unvalid token");
+      return { userId: thisToken.id };
+    });
+  },
 });
 
 graphQLServer.applyMiddleware({
@@ -84,6 +121,7 @@ graphQLServer.applyMiddleware({
   },
 });
 
+graphQLServer.installSubscriptionHandlers(server);
 server.listen(config.port, () => {
   if (
     environment !== "production" &&
@@ -95,6 +133,12 @@ server.listen(config.port, () => {
     );
     process.exit(1);
   }
+  console.log(
+    `Server ready at http://localhost:${config.port}${graphQLServer.graphqlPath}`
+  );
+  console.log(
+    `Subscriptions ready at ws://localhost:${config.port}${graphQLServer.subscriptionsPath}`
+  );
   return DB;
 });
 

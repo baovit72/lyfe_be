@@ -1,29 +1,19 @@
 const { GraphQLInt, GraphQLString, GraphQLList } = require("graphql");
-const { PubSub } = require("apollo-server-express");
 const { ChatType } = require("./../types/ChatType");
-const pubsub = new PubSub();
 
 const createChatSubscription = {
   type: ChatType,
   args: {
-    id: {
-      name: "id",
-      type: GraphQLInt,
-    },
-    name: {
-      name: "name",
+    text: {
+      name: "text",
       type: GraphQLString,
-    },
-    code: {
-      name: "code",
-      type: GraphQLString,
-    },
-    ownerId: {
-      name: "ownerId",
-      type: GraphQLInt,
     },
   },
-  subscribe: (_, args) => pubsub.asyncIterator(["NEW_CHAT"]),
+  resolve: (_, { text }, { pubsub }) => {
+    console.log("new chat");
+    pubsub.publish("NEW_CHAT", { text });
+    return { text };
+  },
 };
 
 module.exports = { createChatSubscription };

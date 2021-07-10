@@ -10,7 +10,7 @@ const { ApolloServer } = require("apollo-server-express");
 const helmet = require("helmet");
 const http = require("http");
 const mapRoutes = require("express-routes-mapper");
-
+const { PubSub } = require("apollo-server-express");
 /**
  * server configuration
  */
@@ -57,6 +57,7 @@ api.use("/rest", privateMappedRoutes);
 // private GraphQL API
 api.post("/graphql", (req, res, next) => auth(req, res, next));
 
+const pubsub = new PubSub();
 const graphQLServer = new ApolloServer({
   schema,
   subscriptions: {
@@ -71,8 +72,7 @@ const graphQLServer = new ApolloServer({
   context: ({ req, connection }) => {
     let authorization;
     if (connection) {
-      console.log(connection);
-      authorization = connection.context.authorization;
+      authorization = connection.variables.token;
     } else authorization = req.header("Authorization");
     let tokenToVerify;
     if (authorization) {
@@ -94,7 +94,7 @@ const graphQLServer = new ApolloServer({
     }
     return JWTService().verify(tokenToVerify, (err, thisToken) => {
       if (err) throw new Error("Unvalid token");
-      return { userId: thisToken.id };
+      return { userId: thisToken.id, pubsub };
     });
   },
 });

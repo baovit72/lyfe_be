@@ -38,6 +38,7 @@ const RootMutation = new GraphQLObjectType({
     updateGroup,
     joinGroup,
     leaveGroup,
+    createChatSubscription,
   }),
 });
 
@@ -46,7 +47,6 @@ const RootSubscription = new GraphQLObjectType({
   description:
     "This is the root subscription which holds all possible SUBSCRIBE entrypoints for the GraphQL API",
   fields: () => ({
-    createChatSubscription,
     newChatSubscription,
   }),
 });

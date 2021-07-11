@@ -80,7 +80,6 @@ const graphQLServer = new ApolloServer({
       if (parts.length === 2) {
         const scheme = parts[0];
         const credentials = parts[1];
-
         if (/^Bearer$/.test(scheme)) {
           tokenToVerify = credentials;
         } else {

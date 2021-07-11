@@ -1,7 +1,5 @@
-const { createChatSubscription } = require("./CreateChatSubscription");
-const { newChatSubscription } = require("./NewChatSubscription");
+const { chatSubscription } = require("./ChatSubscription");
 
 module.exports = {
-  createChatSubscription,
-  newChatSubscription,
+  chatSubscription,
 };

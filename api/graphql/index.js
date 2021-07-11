@@ -7,11 +7,9 @@ const { noteQuery } = require("./queries");
 const { createNote, updateNote, deleteNote } = require("./mutations");
 const { createGroup, updateGroup } = require("./mutations");
 const { joinGroup, leaveGroup } = require("./mutations");
+const { sendChat } = require("./mutations");
 
-const {
-  createChatSubscription,
-  newChatSubscription,
-} = require("./subscriptions");
+const { chatSubscription } = require("./subscriptions");
 
 const RootQuery = new GraphQLObjectType({
   name: "rootQuery",
@@ -38,7 +36,7 @@ const RootMutation = new GraphQLObjectType({
     updateGroup,
     joinGroup,
     leaveGroup,
-    createChatSubscription,
+    sendChat,
   }),
 });
 
@@ -47,7 +45,7 @@ const RootSubscription = new GraphQLObjectType({
   description:
     "This is the root subscription which holds all possible SUBSCRIBE entrypoints for the GraphQL API",
   fields: () => ({
-    newChatSubscription,
+    chatSubscription,
   }),
 });
 

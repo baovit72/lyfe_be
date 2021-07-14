@@ -1,9 +1,9 @@
 const development = {
-  database: "LYFE",
+  database: "lyfe",
   username: "root",
   password: "lyfe_db_password!@#$",
   host: "localhost",
-  dialect: "sqlite" || "mysql" || "postgres",
+  dialect: "mysql",
 };
 
 const testing = {

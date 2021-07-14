@@ -13,7 +13,15 @@ const Emoticon = sequelize.define(
       type: Sequelize.STRING,
       allowNull: false,
     },
-    image: {
+    imagePng: {
+      type: Sequelize.INTEGER,
+      allowNull: false,
+      references: {
+        model: Media,
+        key: "id",
+      },
+    },
+    imageGif: {
       type: Sequelize.INTEGER,
       allowNull: false,
       references: {

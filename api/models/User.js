@@ -37,6 +37,10 @@ const User = sequelize.define(
       unique: true,
       allowNull: false,
     },
+    birthday: {
+      type: Sequelize.DATEONLY,
+      allowNull: true,
+    },
     avatar: {
       type: Sequelize.INTEGER,
       allowNull: false,

@@ -5,14 +5,15 @@ const { Group } = require("./Group");
 const { Emoticon } = require("./Emoticon");
 const { Feeling } = require("./Feeling");
 const { ResetToken } = require("./ResetToken");
+const { Media } = require("./Media");
 const { Chat } = require("./Chat");
 module.exports = {
-  Note,
+  Media,
   User,
+  Emoticon,
   Group,
   GroupDetail,
   Chat,
   Feeling,
-  Emoticon,
   ResetToken,
 };

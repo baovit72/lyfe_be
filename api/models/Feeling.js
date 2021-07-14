@@ -16,7 +16,7 @@ const Emothought = sequelize.define(
       allowNull: false,
     },
     emoticonId: {
-      type: Sequelize.STRING,
+      type: Sequelize.INTEGER,
       allowNull: false,
       references: {
         model: Emoticon,

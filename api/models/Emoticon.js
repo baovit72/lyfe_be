@@ -4,6 +4,8 @@ const sequelize = require("../../config/database");
 
 const tableName = "emoticons";
 
+const { Media } = require("./Media");
+
 const Emoticon = sequelize.define(
   "Emoticon",
   {
@@ -11,9 +13,13 @@ const Emoticon = sequelize.define(
       type: Sequelize.STRING,
       allowNull: false,
     },
-    imageUrl: {
-      type: Sequelize.STRING,
+    image: {
+      type: Sequelize.INTEGER,
       allowNull: false,
+      references: {
+        model: Media,
+        key: "id",
+      },
     },
   },
   { tableName }

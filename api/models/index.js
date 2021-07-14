@@ -3,7 +3,8 @@ const { User } = require("./User");
 const { GroupDetail } = require("./GroupDetail");
 const { Group } = require("./Group");
 const { Emoticon } = require("./Emoticon");
-const { Emothought } = require("./Emothought");
+const { Feeling } = require("./Feeling");
+const { ResetToken } = require("./ResetToken");
 const { Chat } = require("./Chat");
 module.exports = {
   Note,
@@ -11,6 +12,7 @@ module.exports = {
   Group,
   GroupDetail,
   Chat,
-  Emothought,
+  Feeling,
   Emoticon,
+  ResetToken,
 };

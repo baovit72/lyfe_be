@@ -11,6 +11,9 @@ const helmet = require("helmet");
 const http = require("http");
 const mapRoutes = require("express-routes-mapper");
 const { PubSub } = require("apollo-server-express");
+const { uploadImageMW, uploadVideoMW, embedVideo, embedImage } =
+  require("./controllers/MediaController")();
+
 /**
  * server configuration
  */
@@ -52,9 +55,10 @@ api.use(bodyParser.json());
 api.use("/rest", publicMappedRoutes);
 
 // private REST API
-api.use("/rest", privateMappedRoutes);
+api.use("/rest", (req, res, next) => auth(req, res, next), privateMappedRoutes);
 
 // private GraphQL API
+const mediaEmbedMws = [uploadImageMW, embedImage, uploadVideoMW, embedVideo];
 api.post("/graphql", (req, res, next) => auth(req, res, next));
 
 const pubsub = new PubSub();

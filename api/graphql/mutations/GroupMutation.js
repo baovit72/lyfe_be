@@ -3,7 +3,7 @@ const merge = require("lodash.merge");
 const { GroupType } = require("../types");
 const { Group, User } = require("../../models");
 const { GroupInputType } = require("../inputTypes");
-const noiseIdService = require("../../services/noiseid.service");
+const idService = require("../../services/id.service");
 
 const updateGroup = {
   type: GroupType,
@@ -28,7 +28,6 @@ const updateGroup = {
     const updatedGroup = merge(foundGroup, {
       name: group.name,
     });
-
     return foundGroup.update(updatedGroup);
   },
 };
@@ -43,7 +42,7 @@ const createGroup = {
     },
   },
   resolve: async (_, { group }, { userId }) => {
-    group.code = noiseIdService().encode((await Group.count()) + 1);
+    group.code = idService().encode((await Group.count()) + 1);
     const user = await User.findByPk(userId);
     if (!user) {
       throw new Error(`User with id: ${user.id} not found!`);

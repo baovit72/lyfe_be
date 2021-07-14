@@ -3,6 +3,8 @@ const bcryptSevice = require("../services/bcrypt.service");
 
 const sequelize = require("../../config/database");
 
+const { Media } = require("./Media");
+
 const hooks = {
   beforeCreate(user) {
     user.password = bcryptSevice().password(user); // eslint-disable-line no-param-reassign
@@ -35,9 +37,13 @@ const User = sequelize.define(
       unique: true,
       allowNull: false,
     },
-    avtUrl: {
-      type: Sequelize.STRING,
-      allowNull: true,
+    avatar: {
+      type: Sequelize.INTEGER,
+      allowNull: false,
+      references: {
+        model: Media,
+        key: "id",
+      },
     },
   },
   { hooks, tableName }

@@ -2,6 +2,7 @@ const Sequelize = require("sequelize");
 
 const sequelize = require("../../config/database");
 
+const { Media } = require("./Media");
 const { User } = require("./User");
 const { Group } = require("./Group");
 
@@ -14,13 +15,21 @@ const Chat = sequelize.define(
       type: Sequelize.STRING,
       allowNull: true,
     },
-    imageUrl: {
-      type: Sequelize.STRING,
+    image: {
+      type: Sequelize.INTEGER,
       allowNull: true,
+      references: {
+        model: Media,
+        key: "id",
+      },
     },
-    videoUrl: {
-      type: Sequelize.STRING,
+    video: {
+      type: Sequelize.INTEGER,
       allowNull: true,
+      references: {
+        model: Media,
+        key: "id",
+      },
     },
     senderId: {
       type: Sequelize.INTEGER,

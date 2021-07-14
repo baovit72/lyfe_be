@@ -4,6 +4,7 @@ const sequelize = require("../../config/database");
 
 const { User } = require("./User");
 const { Group } = require("./Group");
+const { Media } = require("./Media");
 
 const tableName = "DiaryItems";
 
@@ -14,9 +15,13 @@ const Chat = sequelize.define(
       type: Sequelize.STRING,
       allowNull: true,
     },
-    imageUrl: {
-      type: Sequelize.STRING,
-      allowNull: true,
+    image: {
+      type: Sequelize.INTEGER,
+      allowNull: false,
+      references: {
+        model: Media,
+        key: "id",
+      },
     },
     userId: {
       type: Sequelize.INTEGER,

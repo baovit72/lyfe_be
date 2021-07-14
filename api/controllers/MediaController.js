@@ -5,6 +5,7 @@ const path = require("path");
 const { Media } = require("../models/Media");
 
 const mediaService = require("../services/media.service");
+const idService = require("../services/id.service");
 
 const MediaController = () => {
   const upload = multer({
@@ -52,6 +53,34 @@ const MediaController = () => {
 
   const uploadImageMW = upload.single("image");
   const uploadVideoMW = upload.single("video");
+  const embedImage = async (req, res, next) => {
+    try {
+      const image = await Media.create({
+        alt: "",
+        type: "image",
+        filename: req.file.filename,
+      });
+      req.mediaId = image.id;
+    } catch (e) {
+      console.log(e);
+    } finally {
+      next();
+    }
+  };
+  const embedVideo = async (req, res, next) => {
+    try {
+      const media = await Media.create({
+        alt: "",
+        type: "video",
+        filename: req.file.filename,
+      });
+      req.mediaId = media.id;
+    } catch (e) {
+      console.log(e);
+    } finally {
+      next();
+    }
+  };
   const uploadVideo = async (req, res, next) => {
     try {
       if (!res.headerSent) {
@@ -82,9 +111,11 @@ const MediaController = () => {
         type: "image",
         filename: req.file.filename,
       });
+
       console.log("created image", image);
       res.send(
         JSON.stringify({
+          id: idService().encode(image.id),
           url: mediaService().getImageUrl(req.file.filename),
         })
       );
@@ -138,6 +169,8 @@ const MediaController = () => {
     uploadVideoMW,
     uploadVideo,
     getVideo,
+    embedVideo,
+    embedImage,
   };
 };
 

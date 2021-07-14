@@ -9,14 +9,6 @@ const { User } = require("./User");
 const Group = sequelize.define(
   "Group",
   {
-    name: {
-      type: Sequelize.STRING,
-      allowNull: false,
-    },
-    code: {
-      type: Sequelize.STRING,
-      allowNull: false,
-    },
     ownerId: {
       type: Sequelize.INTEGER,
       allowNull: false,

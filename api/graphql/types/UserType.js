@@ -31,9 +31,11 @@ const UserType = new GraphQLObjectType({
       type: GraphQLString,
       resolve: (user) => user.phone,
     },
-    avtUrl: {
+    avatar: {
       type: GraphQLString,
-      resolve: (user) => user.avtUrl,
+      resolve: (user) => {
+        
+      },
     },
     // notes: {
     //   type: new GraphQLList(NoteType),

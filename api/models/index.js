@@ -7,6 +7,7 @@ const { Feeling } = require("./Feeling");
 const { ResetToken } = require("./ResetToken");
 const { Media } = require("./Media");
 const { Chat } = require("./Chat");
+const { DiaryItem } = require("./DiaryItem");
 module.exports = {
   Media,
   User,
@@ -16,4 +17,5 @@ module.exports = {
   Chat,
   Feeling,
   ResetToken,
+  DiaryItem,
 };

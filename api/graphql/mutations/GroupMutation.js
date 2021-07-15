@@ -42,14 +42,14 @@ const createGroup = {
     },
   },
   resolve: async (_, { group }, { userId }) => {
-    group.code = idService().encode((await Group.count()) + 1);
     const user = await User.findByPk(userId);
     if (!user) {
       throw new Error(`User with id: ${user.id} not found!`);
     }
-    console.log(user);
     group.ownerId = userId;
-    return Group.create(group);
+    const createdGroup = await Group.create(group);
+    createdGroup.code = idService().encode(await Group.count());
+    return createdGroup;
   },
 };
 

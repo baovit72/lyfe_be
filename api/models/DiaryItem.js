@@ -6,10 +6,10 @@ const { User } = require("./User");
 const { Group } = require("./Group");
 const { Media } = require("./Media");
 
-const tableName = "DiaryItems";
+const tableName = "diary";
 
-const Chat = sequelize.define(
-  "DiaryItems",
+const DiaryItem = sequelize.define(
+  "DiaryItem",
   {
     description: {
       type: Sequelize.STRING,
@@ -42,4 +42,4 @@ const Chat = sequelize.define(
   },
   { tableName }
 );
-module.exports = { DiaryItems };
+module.exports = { DiaryItem };

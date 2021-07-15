@@ -1,10 +1,13 @@
-const { User } = require("../models");
+const { User, Media } = require("../models");
+
 const authService = require("../services/auth.service");
 const bcryptService = require("../services/bcrypt.service");
+const mediaService = require("../services/media.service");
 
 const AuthController = () => {
   const register = async (req, res) => {
     const { email, password, name, username, phone } = req.body;
+
     try {
       const user = await User.create({
         email,
@@ -18,7 +21,18 @@ const AuthController = () => {
       return res.status(200).json({ token, user });
     } catch (err) {
       console.log(err);
-      return res.status(500).json({ msg: "Internal server error" });
+      console.log(err.fields);
+      if (err.fields)
+        return res.status(500).json({
+          duplicate: Object.keys(err.fields)
+            .map((key) => key.replace("users.", ""))
+            .join(""),
+        });
+      else {
+        return res.status(500).json({
+          msg: "Internal Server Error",
+        });
+      }
     }
   };
 
@@ -39,7 +53,7 @@ const AuthController = () => {
 
         if (bcryptService().comparePassword(password, user.password)) {
           const token = authService().issue({ id: user.id });
-
+          user.avatar = await mediaService().getMediaUrlById(user.avatar);
           return res.status(200).json({ token, user });
         }
 
@@ -67,6 +81,10 @@ const AuthController = () => {
           id: payload.id,
         },
       });
+      if (!user) {
+        return res.status(400).json({ msg: "Bad Request: User not found" });
+      }
+      user.avatar = await mediaService().getMediaUrlById(user.avatar);
       return res.status(200).json({ isvalid: true, user });
     });
   };

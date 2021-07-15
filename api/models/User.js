@@ -35,7 +35,7 @@ const User = sequelize.define(
     phone: {
       type: Sequelize.STRING,
       unique: true,
-      allowNull: false,
+      allowNull: true,
     },
     birthday: {
       type: Sequelize.DATEONLY,
@@ -43,7 +43,7 @@ const User = sequelize.define(
     },
     avatar: {
       type: Sequelize.INTEGER,
-      allowNull: false,
+      allowNull: true,
       references: {
         model: Media,
         key: "id",

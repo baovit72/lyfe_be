@@ -10,13 +10,17 @@ const idService = require("../services/id.service");
 const MediaController = () => {
   const upload = multer({
     dest: "medias/",
+    limits: { fieldSize: 125 * 1024 * 1024 },
     onError: function (err, next) {
+      console.log(err);
+
       next(err);
     },
     fileFilter: function (req, file, cb) {
       const allowedTypes = [
         "image/gif",
         "image/jpeg",
+        "image/jpg",
         "image/png",
         "image/svg+xml",
         "video/mp4",
@@ -102,6 +106,7 @@ const MediaController = () => {
     }
   };
   const uploadImage = async (req, res, next) => {
+    console.log("upload");
     try {
       if (!res.headerSent) {
         res.setHeader("Content-Type", "application/json");
@@ -111,7 +116,7 @@ const MediaController = () => {
         type: "image",
         filename: req.file.filename,
       });
-
+      console.log("upload image");
       console.log("created image", image);
       res.send(
         JSON.stringify({
@@ -155,11 +160,10 @@ const MediaController = () => {
     }
   };
   const getImage = async (req, res) => {
-    console.log("get image");
-    console.log("get image");
-    // console.log(req.url);
-    req.url = req.url.replace("/image", "");
-    imageHandler(req, res);
+    const imageName = req.url.replace("/image", "");
+    console.log("dir", __dirname);
+    const imagePath = path.resolve(__dirname, "../../medias/" + imageName);
+    res.sendFile(imagePath);
   };
 
   return {

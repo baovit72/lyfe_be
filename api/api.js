@@ -55,7 +55,7 @@ api.use(bodyParser.json());
 api.use("/rest", publicMappedRoutes);
 
 // private REST API
-api.use("/rest", (req, res, next) => auth(req, res, next), privateMappedRoutes);
+api.use("/rest", privateMappedRoutes);
 
 // private GraphQL API
 const mediaEmbedMws = [uploadImageMW, embedImage, uploadVideoMW, embedVideo];

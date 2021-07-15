@@ -34,7 +34,10 @@ const UserInputType = (type) => {
         phone: {
           type: GraphQLString,
         },
-        avtUrl: {
+        avatar: {
+          type: GraphQLString,
+        },
+        birthday: {
           type: GraphQLString,
         },
       };

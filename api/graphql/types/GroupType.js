@@ -13,10 +13,6 @@ const GroupType = new GraphQLObjectType({
       type: GraphQLInt,
       resolve: (group) => group.id,
     },
-    name: {
-      type: GraphQLString,
-      resolve: (group) => group.name,
-    },
     code: {
       type: GraphQLString,
       resolve: (group) => group.code,

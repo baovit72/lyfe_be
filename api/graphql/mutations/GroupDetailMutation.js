@@ -1,11 +1,13 @@
 const merge = require("lodash.merge");
 
-const { GroupDetailType } = require("../types");
+const { GroupType } = require("../types");
 const { Group, User, GroupDetail } = require("../../models");
 const { GroupDetailInputType } = require("../inputTypes");
+const idService = require("../../services/id.service");
+const id = require("../../services/id.service");
 
 const joinGroup = {
-  type: GroupDetailType,
+  type: GroupType,
   description: "The mutation that allows you put user to a group",
   args: {
     group: {
@@ -14,9 +16,13 @@ const joinGroup = {
     },
   },
   resolve: async (_, { group }, { userId }) => {
-    const foundGroup = await Group.findOne({ where: { code: group.code } });
+    const foundGroup = await Group.findOne({
+      where: { id: idService().decode(group.code) },
+    });
     if (!foundGroup) {
-      throw new Error(`Group with code: ${group.code} not found!`);
+      throw new Error(
+        `Group with code: ${idService().decode(group.code)} not found!`
+      );
     }
     const user = await User.findByPk(userId);
 
@@ -27,15 +33,17 @@ const joinGroup = {
       throw new Error(`User's already in a group`);
     }
 
-    return GroupDetail.create({
+    const createdGroupDetail = await GroupDetail.create({
       userId: user.id,
       groupId: foundGroup.id,
     });
+    foundGroup.code = id().encode(foundGroup.id);
+    return foundGroup;
   },
 };
 
 const leaveGroup = {
-  type: GroupDetailType,
+  type: GroupType,
   description: "The mutation that allows you to leave a group ",
   args: {
     group: {
@@ -44,7 +52,9 @@ const leaveGroup = {
     },
   },
   resolve: async (_, { group }, { userId }) => {
-    const foundGroup = await Group.findOne({ where: { code: group.code } });
+    const foundGroup = await Group.findOne({
+      where: { id: idService().decode(group.code) },
+    });
     if (!foundGroup) {
       throw new Error(`Group with code: ${group.code} not found!`);
     }

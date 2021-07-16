@@ -27,7 +27,7 @@ const joinGroup = {
     const user = await User.findByPk(userId);
 
     const groupDetail = await GroupDetail.findOne({
-      where: { userId: user.id, groupId: foundGroup.id, active: true },
+      where: { userId: user.id, active: true },
     });
     if (groupDetail) {
       throw new Error(`User's already in a group`);
@@ -45,23 +45,10 @@ const joinGroup = {
 const leaveGroup = {
   type: GroupType,
   description: "The mutation that allows you to leave a group ",
-  args: {
-    group: {
-      name: "group",
-      type: GroupDetailInputType("update"),
-    },
-  },
-  resolve: async (_, { group }, { userId }) => {
-    const foundGroup = await Group.findOne({
-      where: { id: idService().decode(group.code) },
-    });
-    if (!foundGroup) {
-      throw new Error(`Group with code: ${group.code} not found!`);
-    }
-    const user = await User.findByPk(userId);
 
+  resolve: async (_, { group }, { userId }) => {
     const groupDetail = await GroupDetail.findOne({
-      where: { userId: user.id, groupId: foundGroup.id, active: true },
+      where: { userId, active: true },
     });
 
     if (!groupDetail) {

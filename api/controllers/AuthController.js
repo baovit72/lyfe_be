@@ -3,6 +3,7 @@ const { User, Media } = require("../models");
 const authService = require("../services/auth.service");
 const bcryptService = require("../services/bcrypt.service");
 const mediaService = require("../services/media.service");
+const groupService = require("../services/group.service");
 
 const AuthController = () => {
   const register = async (req, res) => {
@@ -54,7 +55,9 @@ const AuthController = () => {
         if (bcryptService().comparePassword(password, user.password)) {
           const token = authService().issue({ id: user.id });
           user.avatar = await mediaService().getMediaUrlById(user.avatar);
-          return res.status(200).json({ token, user });
+          const group = await groupService().getUserGroup(user.id);
+          group && delete group.id;
+          return res.status(200).json({ token, user, group });
         }
 
         return res.status(401).json({ msg: "Unauthorized" });
@@ -84,8 +87,11 @@ const AuthController = () => {
       if (!user) {
         return res.status(400).json({ msg: "Bad Request: User not found" });
       }
+      const group = await groupService().getUserGroup(user.id);
+      group && delete group.id;
       user.avatar = await mediaService().getMediaUrlById(user.avatar);
-      return res.status(200).json({ isvalid: true, user });
+
+      return res.status(200).json({ isvalid: true, user, group });
     });
   };
 

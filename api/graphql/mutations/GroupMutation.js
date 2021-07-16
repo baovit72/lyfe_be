@@ -1,7 +1,7 @@
 const merge = require("lodash.merge");
 
 const { GroupType } = require("../types");
-const { Group, User } = require("../../models");
+const { Group, User, GroupDetail } = require("../../models");
 const { GroupInputType } = require("../inputTypes");
 const idService = require("../../services/id.service");
 
@@ -47,8 +47,24 @@ const createGroup = {
       throw new Error(`User with id: ${user.id} not found!`);
     }
     group.ownerId = userId;
+    const groupDetail = await GroupDetail.findOne({
+      where: { userId: user.id, active: true },
+    });
+    if (groupDetail) {
+      throw new Error(`User's already in a group`);
+    }
     const createdGroup = await Group.create(group);
+    if (!group) {
+      throw new Error(`Group not created!`);
+    }
     createdGroup.code = idService().encode(await Group.count());
+    console.log("create group", group);
+    //Join group
+    const createdGroupDetail = await GroupDetail.create({
+      userId,
+      groupId: await Group.count(),
+    });
+    console.log(createdGroupDetail);
     return createdGroup;
   },
 };

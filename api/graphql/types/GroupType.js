@@ -23,7 +23,7 @@ const GroupType = new GraphQLObjectType({
     },
     createdAt: {
       type: GraphQLString,
-      resolve: (group) => group.createdAt,
+      resolve: (group) => group.startDate,
     },
     updatedAt: {
       type: GraphQLString,

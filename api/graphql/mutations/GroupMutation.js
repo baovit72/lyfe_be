@@ -17,6 +17,7 @@ const updateGroup = {
   },
   resolve: async (_, { group }, { userId }) => {
     const uGroup = await groupService().getUserGroup(userId);
+
     const foundGroup = await Group.findByPk(uGroup.id);
     console.log(uGroup);
     if (!foundGroup) {
@@ -26,11 +27,14 @@ const updateGroup = {
     if (!user) {
       throw new Error(`User with id: ${userId} not exists!`);
     }
-    const updatedGroup = merge(foundGroup, {
-      name: new Date(group.createdAt),
+
+    console.log("createdAt", group.createdAt, Date.parse(group.createdAt));
+
+    const update = await foundGroup.update({
+      startDate: new Date(Date.parse(group.createdAt)),
     });
-    console.log("updated group", updatedGroup);
-    return foundGroup.update(updatedGroup);
+    console.log(update);
+    return update;
   },
 };
 

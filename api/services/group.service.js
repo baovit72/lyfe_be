@@ -11,7 +11,7 @@ const groupService = () => {
       if (!group) return null;
       return {
         id: group.id,
-        createdAt: group.createdAt,
+        createdAt: group.startDate,
         code: idService().encode(group.id),
       };
     },

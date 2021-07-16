@@ -124,7 +124,8 @@ const AuthController = () => {
       },
       order: [["createdAt", "DESC"]],
     });
-    if (!entries) return res.status(400).send("Token not found");
+    if (!entries || !entries.length)
+      return res.status(400).send("Token not found");
     const resettoken = entries[0];
     if (resettoken.exp < new Date())
       return res.status(400).send("Your token has been expired");

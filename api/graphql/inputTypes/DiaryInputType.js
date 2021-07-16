@@ -11,6 +11,9 @@ const DiaryInputType = (type) => {
     description: {
       type: new GraphQLNonNull(GraphQLString),
     },
+    image: {
+      type: new GraphQLNonNull(GraphQLString),
+    },
   };
 
   switch (type) {

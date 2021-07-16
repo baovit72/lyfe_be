@@ -15,7 +15,8 @@ const Group = sequelize.define(
   {
     startDate: {
       type: Sequelize.DATE,
-      allowNull: true,
+      allowNull: false,
+      default: new Date(),
     },
     ownerId: {
       type: Sequelize.INTEGER,

@@ -21,7 +21,7 @@ const UserInputType = (type) => {
       break;
     case "update":
       allGraphFields = {
-        ...standardGraphFields,
+        // ...standardGraphFields,
         username: {
           type: GraphQLString,
         },
@@ -38,6 +38,9 @@ const UserInputType = (type) => {
           type: GraphQLString,
         },
         birthday: {
+          type: GraphQLString,
+        },
+        password: {
           type: GraphQLString,
         },
       };

@@ -59,6 +59,7 @@ const createGroup = {
     if (groupDetail) {
       throw new Error(`User's already in a group`);
     }
+    group.startDate = new Date();
     const createdGroup = await Group.create(group);
     if (!group) {
       throw new Error(`Group not created!`);
@@ -71,7 +72,7 @@ const createGroup = {
       groupId: await Group.count(),
     });
     console.log(createdGroupDetail);
-    return { ...createdGroup, createdAt: new Date() };
+    return { ...createdGroup, startDate: new Date().toISOString() };
   },
 };
 

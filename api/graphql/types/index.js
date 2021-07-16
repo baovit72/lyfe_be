@@ -3,6 +3,7 @@ const { UserType } = require("./UserType");
 const { GroupDetailType } = require("./GroupDetailType");
 const { GroupType } = require("./GroupType");
 const { ChatType } = require("./ChatType");
+const { DiaryType } = require("./DiaryType");
 
 module.exports = {
   NoteType,
@@ -10,4 +11,5 @@ module.exports = {
   GroupType,
   GroupDetailType,
   ChatType,
+  DiaryType,
 };

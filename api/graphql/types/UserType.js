@@ -33,8 +33,12 @@ const UserType = new GraphQLObjectType({
     },
     avatar: {
       type: GraphQLString,
+      resolve: (user) => {},
+    },
+    birthday: {
+      type: GraphQLString,
       resolve: (user) => {
-        
+        user.birthday;
       },
     },
     // notes: {

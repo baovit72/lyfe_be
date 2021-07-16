@@ -7,6 +7,7 @@ const { createGroup, updateGroup } = require("./GroupMutation");
 const { createUser, updateUser, deleteUser } = require("./UserMutation");
 
 const { sendChat } = require("./ChatMutation");
+const { createDiary } = require("./DiaryMutation");
 
 module.exports = {
   createNote,
@@ -20,4 +21,5 @@ module.exports = {
   joinGroup,
   sendChat,
   leaveGroup,
+  createDiary,
 };

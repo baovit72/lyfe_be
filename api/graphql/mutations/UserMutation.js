@@ -3,6 +3,7 @@ const merge = require("lodash.merge");
 const { UserType } = require("../types");
 const { User } = require("../../models");
 const { UserInputType } = require("../inputTypes");
+const id = require("../../services/id.service");
 
 const updateUser = {
   type: UserType,
@@ -13,18 +14,28 @@ const updateUser = {
       type: UserInputType("update"),
     },
   },
-  resolve: async (_, { user }) => {
-    const foundUser = await User.findByPk(user.id);
-    console.log("find user", user.id);
+  resolve: async (_, { user }, { userId }) => {
+    const foundUser = await User.findByPk(userId);
+    console.log("find user", foundUser.id);
     if (!foundUser) {
       throw new Error(`User with id: ${user.id} not found!`);
     }
-    const updatedUser = merge(foundUser, {
-      username: user.username,
-      email: user.email,
-    });
+    const newValue = {};
+    user.name && (newValue.name = user.name);
+    user.phone && (newValue.phone = user.phone);
+    user.password && (newValue.password = user.password);
+    if (user.avatar) {
+      newValue.avatar = +id().decode(user.avatar);
+    }
+    if (user.birthday) {
+      newValue.birthday = Date.parse(user.birthday);
+    }
 
-    return foundUser.update(updatedUser);
+    // user.avatar && (newValue.name = user.avatar);
+    // user.birthday && (newValue.name = user.birthday);
+    const updatedUser = merge(foundUser, newValue);
+    console.log(updatedUser);
+    return foundUser.update(newValue);
   },
 };
 

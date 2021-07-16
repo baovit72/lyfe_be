@@ -9,6 +9,9 @@ const hooks = {
   beforeCreate(user) {
     user.password = bcryptSevice().password(user); // eslint-disable-line no-param-reassign
   },
+  beforeUpdate(user) {
+    user.password = bcryptSevice().password(user);
+  },
 };
 
 const tableName = "users";

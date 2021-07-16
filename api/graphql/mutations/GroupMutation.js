@@ -4,6 +4,7 @@ const { GroupType } = require("../types");
 const { Group, User, GroupDetail } = require("../../models");
 const { GroupInputType } = require("../inputTypes");
 const idService = require("../../services/id.service");
+const groupService = require("../../services/group.service");
 
 const updateGroup = {
   type: GroupType,
@@ -15,19 +16,20 @@ const updateGroup = {
     },
   },
   resolve: async (_, { group }, { userId }) => {
-    const foundGroup = await Group.findByPk(group.id);
+    const uGroup = await groupService().getUserGroup(userId);
+    const foundGroup = await Group.findByPk(uGroup.id);
+    console.log(uGroup);
     if (!foundGroup) {
-      throw new Error(`Group with id: ${group.id} not found!`);
+      throw new Error(`Group with user id: ${userId} not found!`);
     }
     const user = await User.findByPk(userId);
-    if (foundGroup.ownerId !== user.id) {
-      throw new Error(
-        `User with id: ${group.id} not allowed to update this group!`
-      );
+    if (!user) {
+      throw new Error(`User with id: ${userId} not exists!`);
     }
     const updatedGroup = merge(foundGroup, {
-      name: group.name,
+      name: new Date(group.createdAt),
     });
+    console.log("updated group", updatedGroup);
     return foundGroup.update(updatedGroup);
   },
 };
@@ -65,7 +67,7 @@ const createGroup = {
       groupId: await Group.count(),
     });
     console.log(createdGroupDetail);
-    return createdGroup;
+    return { ...createdGroup, createdAt: new Date() };
   },
 };
 

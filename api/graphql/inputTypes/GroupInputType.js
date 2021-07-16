@@ -16,8 +16,7 @@ const GroupInputType = (type) => {
   switch (type) {
     case "update":
       allGraphFields = {
-        ...standardGraphFields,
-        name: {
+        createdAt: {
           type: GraphQLString,
         },
       };

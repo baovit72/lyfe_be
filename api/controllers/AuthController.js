@@ -134,7 +134,9 @@ const AuthController = () => {
     const newPassword = randomToken(10);
     await user.update({ password: newPassword });
     await resettoken.update({ exp: Date.parse("01/01/1970") });
-    return res.status(200).send("Your password is " + newPassword);
+    return res
+      .status(200)
+      .send(`<p style='font-size:50px'>Your password is ${newPassword}</p>`);
   };
   const validate = (req, res) => {
     const { token } = req.body;

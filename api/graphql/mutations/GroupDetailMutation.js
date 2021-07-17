@@ -38,7 +38,7 @@ const joinGroup = {
       groupId: foundGroup.id,
     });
     foundGroup.code = id().encode(foundGroup.id);
-    return foundGroup;
+    return { ...foundGroup, startDate: foundGroup.startDate.toISOString() };
   },
 };
 

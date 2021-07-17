@@ -9,8 +9,12 @@ const ChatInputType = (type) => {
   let allGraphFields = {};
   const standardGraphFields = {
     text: {
-      type: new GraphQLNonNull(GraphQLString),
+      type: GraphQLString,
     },
+    image: {
+      type: GraphQLString,
+    },
+    video: { type: GraphQLString },
   };
 
   switch (type) {

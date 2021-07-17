@@ -2,6 +2,7 @@ const { GraphQLSchema, GraphQLObjectType } = require("graphql");
 
 const { userQuery } = require("./queries");
 const { groupQuery } = require("./queries");
+const { chatQuery } = require("./queries");
 const { updateUser, deleteUser } = require("./mutations");
 const { noteQuery } = require("./queries");
 const { createNote, updateNote, deleteNote } = require("./mutations");
@@ -21,6 +22,7 @@ const RootQuery = new GraphQLObjectType({
     user: userQuery,
     note: noteQuery,
     group: groupQuery,
+    chat: chatQuery,
   }),
 });
 

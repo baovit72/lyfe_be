@@ -16,9 +16,11 @@ const ChatType = new GraphQLObjectType({
       resolve: (chat) => chat.id,
     },
     text: { type: GraphQLString, resolve: (chat) => chat.text },
+    image: { type: GraphQLString, resolve: (chat) => chat.image },
+    video: { type: GraphQLString, resolve: (chat) => chat.video },
     user: {
-      type: UserType,
-      resolve: (chat) => chat.user,
+      type: GraphQLString,
+      resolve: (chat) => chat.user, //id, avt, username, name
     },
     createdAt: {
       type: GraphQLString,

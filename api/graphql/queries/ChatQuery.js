@@ -28,7 +28,7 @@ const chatQuery = {
         video: await media().getMediaUrlById(currentChat.video),
         user: JSON.stringify({
           name: sender.name,
-          id: +id().encode(sender.id),
+          id: userId,
           avatar: await media().getMediaUrlById(sender.avatar),
         }),
         createdAt: currentChat.createdAt.toISOString(),

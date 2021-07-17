@@ -15,7 +15,6 @@ const sendChat = {
   },
   resolve: async (_, { chat }, { pubsub, userId }) => {
     console.log("new chat");
-    pubsub.publish("NEW_CHAT", { text: chat.text });
     const group = await groupService().getUserGroup(userId);
     chat.image && (chat.image = +id().decode(chat.image));
     chat.video && (chat.video = +id().decode(chat.video));
@@ -25,7 +24,14 @@ const sendChat = {
       groupId: group.id,
       senderId: userId,
     });
-
+    console.log({
+      ...createdChat,
+      id: await Chat.count(),
+    });
+    pubsub.publish("NEW_CHAT_" + id().encode(group.id), {
+      ...createdChat,
+      id: await Chat.count(),
+    });
     return createdChat;
   },
 };
